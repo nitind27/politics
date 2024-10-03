@@ -1,0 +1,37 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Supervisor {
+  sup_id       Int    @id @default(autoincrement()) @map("sup_id")
+  sup_contact  String @unique @db.VarChar(255) @map("sup_contact")
+  sup_password String @db.VarChar(255) @map("sup_password")
+
+  @@map("tbl_supervisor") 
+}
+
+model Member {
+  id               Int      @id @default(autoincrement()) @map("id") // Primary key
+  name             String    @db.VarChar(255) @map("name") // Member's name
+  mobile_no        String    @db.VarChar(20) @map("mobile_no") // Mobile number
+  address          String    @db.VarChar(255) @map("address") // Address
+  qr_id            Int      @unique @map("qr_id") // Unique QR ID (no arguments in Int)
+  status           String    @db.VarChar(50) @map("status") // Status (e.g., active, inactive)
+  ins_date_time    DateTime @default(now()) @map("ins_date_time") // Insert date and time
+
+  @@map("tbl_members") // Maps to the tbl_members table in the database
+}
+
+model Qrcodes {
+  id               Int      @id @default(autoincrement()) @map("id") // Primary key
+  qr_code_no       Int      @unique @map("qr_code_no") // Unique QR ID
+  ins_date_time    DateTime @default(now()) @map("ins_date_time") // Insert date and time
+  status           String    @db.VarChar(50) @map("status") // Status (e.g., active, inactive)
+  allocated_date DateTime @default(now()) @map("allocated_date")
+  @@map("qr_codes") // Maps to the qr_codes table in the database
+}
