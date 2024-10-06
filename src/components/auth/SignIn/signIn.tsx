@@ -1,6 +1,8 @@
 "use client";
+import Loader from "@/components/Loader/Loader ";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
+import { toast } from "react-toastify";
 
 const LoginForm = () => {
   const [sup_contact, setSupContact] = useState("");
@@ -10,6 +12,7 @@ const LoginForm = () => {
 
   const router = useRouter();
 
+ 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
@@ -25,20 +28,24 @@ const LoginForm = () => {
 
       if (res.ok) {
         console.log("Login successful");
-        router.push("/dashboard")
-
-        // Handle successful login
+        toast.success("Login successful! Redirecting to dashboard...");
+        router.push("/dashboard");
       } else {
         const data = await res.json();
         setErrorMessage(data.message);
+        toast.error(data.message || "Login failed. Please try again.");
       }
     } catch (error) {
       setErrorMessage("Network error occurred");
+      toast.error("Network error occurred. Please try again.");
     } finally {
       setLoading(false);
     }
   };
 
+
+
+  
   return (
     <div className="h-100 container d-flex align-items-center">
       <form

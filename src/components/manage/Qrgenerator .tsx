@@ -1,46 +1,58 @@
-"use client"
+// components/Qrgenerator.tsx
 import React, { useState } from "react";
 import QRCode from "react-qr-code";
 
-const Qrgenerator = () => {
-  const [count, setCount] = useState<number>(1); // State to hold the number of QR codes
+const Qrgenerator: React.FC = () => {
+  const [count, setCount] = useState<number>(0); // State to hold the number of QR codes
   const [qrCodes, setQrCodes] = useState<string[]>([]); // State to hold generated QR codes
+  const [error, setError] = useState<string>(""); // State to hold error messages
 
-  const generateQRCodes = () => {
-    const codes = [];
-    for (let i = 1; i <= count; i++) {
-      // Create a URL with the user ID as a query parameter
-      codes.push(`https://vishalnawle.in/politics/member.php?pl=${i}`); // Customize the base URL as needed
+  const generateQRCodes = async () => {
+    if (count < 1) {
+      setError("Please enter a valid number greater than 0.");
+      return; // Ensure count is valid
     }
-    setQrCodes(codes);
+
+    setError(""); // Clear any previous errors
+
+    try {
+      const response = await fetch("/api/generateqr", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ count }), // Send count in request body
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to generate QR codes");
+      }
+
+      const data = await response.json();
+      setQrCodes(data.codes); // Set the generated QR codes
+    } catch (error) {
+      console.error(error);
+      alert("Error generating QR codes");
+    }
   };
 
   return (
-    <div style={{ padding: "20px", textAlign: "center" }}>
-      <h1>Generate QR Codes</h1>
-      <div>
-        <label>
-          Number of QR Codes:
-          <input
-            type="number"
-            value={count}
-            onChange={(e) => setCount(Number(e.target.value))}
-            min="1" // Ensures that the minimum value is 1
-            style={{ margin: "0 10px", width: "60px" }}
-          />
-        </label>
-        <button onClick={generateQRCodes} style={{ marginTop: "10px" }}>
-          Generate QR Codes
+    <div className="container mt-5">
+      <div className="mb-3">
+        <label htmlFor="qrCount" className="fw-bold">Quantity</label>
+        <input
+          id="qrCount"
+          type="number" // Change input type to number for better UX
+          value={count}
+          onChange={(e) => setCount(Number(e.target.value))}
+          className={`form-control ${error ? 'is-invalid' : ''}`} // Add invalid class if there's an error
+        />
+        {error && <div className="invalid-feedback">{error}</div>} {/* Display error message */}
+        <button onClick={generateQRCodes} className="btn btn-primary mt-3">
+          Generate
         </button>
       </div>
-      <div style={{ marginTop: "20px" }}>
-        {qrCodes.map((code, index) => (
-          <div key={index} style={{ margin: "10px" }}>
-            <QRCode value={code} />
-            <p>{code}</p>
-          </div>
-        ))}
-      </div>
+
     </div>
   );
 };

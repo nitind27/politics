@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React from "react";
 import {
   useReactTable,
@@ -57,15 +57,15 @@ export default function BasicTable({ data, columns }: any) {
   };
 
   return (
-    <div className="container mt-5">
-      <h2 className="text-center">Basic Table</h2>
+    <div className="container mt-5 card card-body p-5">
+      <h2 className="text-center">User Data</h2>
       <div className="table-responsive">
-        <table className="table table-striped table-bordered">
+        <table className="table table-striped table-bordered table-hover">
           <thead className="thead-dark">
             {table.getHeaderGroups().map((headerGroup) => (
               <tr key={headerGroup.id}>
                 {headerGroup.headers.map((header) => (
-                  <th key={header.id}>
+                  <th key={header.id} className="text-start">
                     {flexRender(
                       header.column.columnDef.header,
                       header.getContext()
@@ -77,9 +77,9 @@ export default function BasicTable({ data, columns }: any) {
           </thead>
           <tbody>
             {table.getRowModel().rows.map((row) => (
-              <tr key={row.id}>
+              <tr key={row.id} className="text-start p-2">
                 {row.getVisibleCells().map((cell) => (
-                  <td key={cell.id}>
+                  <td key={cell.id} className="text-start p-2">
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </td>
                 ))}

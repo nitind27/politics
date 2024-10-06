@@ -6,8 +6,8 @@ export type Member = {
   qr_id: number;
   status: string;
   ins_date_time: Date;
+  verify_date_time: Date; // Ensure this property is included
 };
-
 export type Supervisor = {
     sup_id: number;
     sup_contact: string;

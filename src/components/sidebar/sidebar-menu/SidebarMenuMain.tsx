@@ -1,4 +1,4 @@
-import { SidebarMenuItem } from './SidebarMenuItem';
+import { SidebarMenuItem } from "./SidebarMenuItem";
 // import { useIntl } from 'react-intl';
 
 const SidebarMenuMain = () => {
@@ -10,7 +10,7 @@ const SidebarMenuMain = () => {
         to="/dashboard"
         icon="home"
         // title={intl.formatMessage({ id: "MENU.DASHBOARD" })}
-        title='Dashboard'
+        title="Dashboard"
         fontIcon="bi-app-indicator"
       />
       <SidebarMenuItem
@@ -19,24 +19,7 @@ const SidebarMenuMain = () => {
         title="Manage"
         fontIcon="calendar"
       />
-      <SidebarMenuItem
-        to="/profile"
-        icon="user"
-        title="Profile"
-        fontIcon="user"
-      />
-      <SidebarMenuItem
-        to="/services"
-        icon="chart-line-star"
-        title="Services"
-        fontIcon="chart-line-star"
-      />
-      <SidebarMenuItem
-        to="/payments"
-        icon="dollar"
-        title="Payments"
-        fontIcon="dollar"
-      />
+
     </>
   );
 };

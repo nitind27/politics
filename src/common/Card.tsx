@@ -6,24 +6,32 @@ type CardProps = {
   backgroundColor?: string;
 };
 
-const Card = ({ title, content, backgroundColor = "#F1416C" }: CardProps) => {
+const Card = ({ title, content, backgroundColor }: CardProps) => {
   return (
     <div
-      className="card card-flush bgi-no-repeat bgi-size-contain bgi-position-x-end h-md-50 mb-5 mb-xl-10 "
-      style={{ backgroundColor }}
+      className="card card-flush bgi-no-repeat bgi-size-contain bgi-position-x-end h-md-100 mb-5 mb-xl-10"
+      style={{
+        backgroundColor,
+        borderRadius: "10px",
+        boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
+        padding: "20px",
+      }}
     >
-      <div className="card-header pt-5">
-        <div className="card-title d-flex flex-column">
-          <span className="fs-2hx fw-bold text-white me-2 lh-1 ls-n2">
+      <div className="card-header pt-4 d-flex justify-content-center">
+        <h2 className="fs-2hx fw-bold text-white me-2 lh-1 ls-n2 text-center">
+          <span
+            style={{
+              fontSize: "80px",
+            }}
+          >
             {title}
           </span>
-        </div>
+        </h2>
       </div>
-
-      <div className="card-body d-flex align-items-end pt-0">
-        <div className="d-flex align-items-center flex-column mt-3 w-100">
-          {content}
-        </div>
+      <div className="card-header pt-4 d-flex justify-content-center">
+        <h2 className="fs-2hx fw-bold text-white me-2 lh-1 ls-n2 text-center">
+          <span>{content}</span>
+        </h2>
       </div>
     </div>
   );

@@ -1,13 +1,17 @@
 import prisma from "@/lib/db"; // Ensure this path is correct
-import { Qrcodes } from "@/components/dashboard/type";
+import { Member, Qrcodes } from "@/components/dashboard/type";
 import Manage from "@/components/manage/Manage";
 import React from "react";
+import Qrgenerator from "@/components/manage/Qrgenerator ";
+import CardDetail from "@/components/manage/CardDetail";
 
 const Page = async () => {
   let Qrcodes: Qrcodes[] = [];
+  let members: Member[] = [];
 
   try {
     Qrcodes = await prisma.qrcodes.findMany(); // Fetch all QR codes
+    members = await prisma.member.findMany(); // Fetch all members
     console.log("Fetched QR codes:", Qrcodes);
   } catch (error) {
     console.error("Error fetching QR codes:", error);
@@ -18,11 +22,28 @@ const Page = async () => {
     );
   }
 
+    // Count the number of members with "Pending" and "Verified" status
+    const pendingCount = Qrcodes.filter(
+      (Qrcodes) => Qrcodes.status === "Pending"
+    ).length;
+    const verifiedCount = Qrcodes.filter(
+      (Qrcodes) => Qrcodes.status === "Allocated"
+    ).length;
+  
   return (
     <div>
-      <h1>Total QR Codes: {Qrcodes.length}</h1>
-    
-      <Manage Qrcodes={Qrcodes} /> 
+
+      <CardDetail
+        title="Manage Data"
+        subtitle="for Free"
+        imageUrl="/metronic8/react/demo1/media/stock/900x600/42.png"
+        linkUrl="/metronic8/react/demo1/crafted/pages/profile/overview"
+        totalData={Qrcodes.length} // Example value for total data
+        pending={pendingCount} // Example value for pending
+        allocated={verifiedCount} // Example value for allocated
+      />
+      <Manage members={members} /> 
+      
     </div>
   );
 };
