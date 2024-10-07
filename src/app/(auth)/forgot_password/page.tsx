@@ -2,7 +2,7 @@
 
 import React from 'react'
 import SignInImg from '../Signinimg/Signinimg';
-import ForgotPassword from '@/components/auth/forgatePassword/forgatePassword';
+// import ForgotPassword from '@/components/auth/forgatePassword/forgatePassword';
 
 const forgot_password = () => {
   return (
@@ -12,7 +12,7 @@ const forgot_password = () => {
         <SignInImg/>
       </div>
       <div className='col-lg-4 col-md-5 col-12 col-md-4 p-0 col-12 bg-white'>
-      <ForgotPassword/>
+      {/* <ForgotPassword/> */}
       </div>
     </div>
     

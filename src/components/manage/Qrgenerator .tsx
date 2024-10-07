@@ -1,6 +1,7 @@
 // components/Qrgenerator.tsx
 import React, { useState } from "react";
 import QRCode from "react-qr-code";
+import { toast } from "react-toastify"; // Import toast functions
 
 const Qrgenerator: React.FC = () => {
   const [count, setCount] = useState<number>(0); // State to hold the number of QR codes
@@ -30,9 +31,14 @@ const Qrgenerator: React.FC = () => {
 
       const data = await response.json();
       setQrCodes(data.codes); // Set the generated QR codes
+
+      // Show success toast message
+      toast.success(`${data.codes.length} QR codes generated successfully!`);
     } catch (error) {
       console.error(error);
-      alert("Error generating QR codes");
+
+      // Show error toast message
+      toast.error("Error generating QR codes");
     }
   };
 

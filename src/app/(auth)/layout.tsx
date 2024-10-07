@@ -1,4 +1,4 @@
-import { ThemeModeProvider } from "@/_metronic/partials";
+
 import { Metadata } from "next";
 import { ToastContainer } from "react-toastify";
 

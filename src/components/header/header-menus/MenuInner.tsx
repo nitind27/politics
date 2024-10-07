@@ -10,7 +10,7 @@ export function MenuInner() {
           }
         `}
       </style>
-      <form
+      {/* <form
         data-kt-search-element="form"
         className="d-md-flex d-none   align-items-center border-0 position-relative my-1"
         autoComplete="off"
@@ -27,7 +27,9 @@ export function MenuInner() {
           placeholder="Search"
           data-kt-search-element="input"
         />
-      </form>
+      </form> */}
+
+      
     </>
   );
 }

@@ -7,7 +7,7 @@ import { MasterInit } from "@/layout/MasterInit";
 import { MasterLayout } from "@/layout/MasterLayout";
 import { LayoutSplashScreen, LayoutProvider } from "@/layout/core";
 import { AuthInit, AuthProvider } from "@/modules/auth";
-import { ServiceProvider } from "@/components/store/data";
+// import { ServiceProvider } from "@/components/store/data";
 
 export const metadata: Metadata = {
   title: "Politics",
@@ -24,7 +24,7 @@ export default function RootLayout({
       <Suspense fallback={<LayoutSplashScreen />}>
         <LayoutProvider>
           {/* <ThemeModeProvider> */}
-          <ServiceProvider>
+          {/* <ServiceProvider> */}
             <AuthInit>
               <MasterLayout>
                 <AuthProvider>
@@ -34,7 +34,7 @@ export default function RootLayout({
               </MasterLayout>
               <MasterInit />
             </AuthInit>
-          </ServiceProvider>
+          {/* </ServiceProvider> */}
           {/* </ThemeModeProvider> */}
         </LayoutProvider>
       </Suspense>

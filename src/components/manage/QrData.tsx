@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import {
   useReactTable,
   getCoreRowModel,
@@ -8,57 +8,82 @@ import {
 } from "@tanstack/react-table";
 
 export default function BasicTable({ data, columns }: any) {
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filterStatus, setFilterStatus] = useState("");
+
+  const filteredData = React.useMemo(() => {
+    return data.filter((row: any) => {
+      const matchesSearch = Object.values(row).some((value) =>
+        String(value).toLowerCase().includes(searchQuery.toLowerCase())
+      );
+
+      const matchesStatus =
+        filterStatus === "" || row.status === filterStatus;
+
+      return matchesSearch && matchesStatus;
+    });
+  }, [data, searchQuery, filterStatus]);
+
   const table = useReactTable({
-    data,
+    data: filteredData,
     columns,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
   });
 
-  // Define currentPage based on the table state
   const currentPage = table.getState().pagination.pageIndex + 1;
   const pageCount = table.getPageCount();
 
   const renderPagination = () => {
-    // Create an array of page numbers to display
-    const pages = [];
-    for (let i = 1; i <= pageCount; i++) {
-      if (
-        i === 1 ||
-        i === pageCount ||
-        (i >= currentPage - 1 && i <= currentPage + 1)
-      ) {
-        pages.push(i);
-      } else if (pages[pages.length - 1] !== "...") {
-        pages.push("...");
-      }
-    }
-
     return (
-      <div className="pagination">
-        {pages.map((page, index) => (
-          <button
-            key={index}
-            className={`btn ${
-              page === currentPage ? "btn-primary" : "btn-outline-secondary"
-            } mx-1`}
-            onClick={() => {
-              if (typeof page === "number") {
-                table.setPageIndex(page - 1);
-              }
-            }}
-            disabled={page === "..."}
-          >
-            {page}
-          </button>
-        ))}
+      <div className="pagination d-flex align-items-center">
+        <button
+          className="btn btn-outline-dark mx-1 btn-sm"
+          onClick={() => table.setPageIndex(currentPage - 2)}
+          disabled={currentPage === 1}
+        >
+          Previous
+        </button>
+        <span className="btn btn-primary mx-1 btn-sm">
+          {currentPage}
+        </span>
+        <button
+          className="btn btn-outline-dark mx-1 btn-sm"
+          onClick={() => table.setPageIndex(currentPage)}
+          disabled={currentPage === pageCount || pageCount === 0}
+        >
+          Next
+        </button>
       </div>
     );
   };
 
   return (
     <div className="container mt-5 card card-body p-5">
-      <h2 className="text-center">User Data</h2>
+      <h2 className="text-center">User Status</h2>
+      <div className="row mb-3">
+        <div className="col-auto">
+          <input
+            type="text"
+            className="form-control"
+            placeholder="Search..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
+        </div>
+        <div className="col-auto">
+          <select
+            className="form-select"
+            value={filterStatus}
+            onChange={(e) => setFilterStatus(e.target.value)}
+          >
+            <option value="">All Status</option>
+            <option value="Pending">Pending</option>
+            <option value="Approved">Approved</option>
+            {/* Add more options as needed */}
+          </select>
+        </div>
+      </div>
       <div className="table-responsive">
         <table className="table table-striped table-bordered table-hover">
           <thead className="thead-dark">

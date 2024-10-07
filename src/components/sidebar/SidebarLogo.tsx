@@ -55,40 +55,48 @@ const SidebarLogo = (props: PropsType) => {
   }, [toggleRef, props.sidebarRef]);
 
   return (
-    <div className="app-sidebar-logo bg-light  px-6" id="kt_app_sidebar_logo">
+    <div className="app-sidebar-logo bg-dark " id="kt_app_sidebar_logo">
       <Link href="/dashboard">
         {config.layoutType === "dark-sidebar" ? (
-          <Image
-            width={225}
-            height={63}
-            alt="Logo1"
-            src={toAbsoluteUrl("/media/logos/logo-talentslist.svg")}
-            className="app-sidebar-logo-default"
-          />
+          
+        //   <Image
+        //   width={250}
+        //   height={80}
+        //   alt="Logo1"
+        //   src="/media/images/truck-logo.png"
+        //   className="app-sidebar-logo-default"
+        // />
+        <Image
+        width={100}
+        height={10}
+        alt="Logo1"
+        src="/media/images/truck-logo.png"
+        className="app-sidebar-logo-default img-fluid"
+      />
         ) : (
           <> 
             <Image
-              width={100}
-              height={100}
+              width={200}
+              height={200}
               alt="Logo"
-              src={toAbsoluteUrl("/media/logos/default.svg")}
+              src={"/media/images/truck-logo.png"}
               className="h-25px app-sidebar-logo-default theme-light-show"
             />
             <Image
-              width={100}
-              height={100}
+              width={200}
+              height={200}
               alt="Logo"
-              src={toAbsoluteUrl("/media/logos/default-dark.svg")}
+              src={"/media/images/truck-logo.png"}
               className="h-25px app-sidebar-logo-default theme-dark-show"
             />
           </>
         )}
 
         <Image
-          width={25}
-          height={25}
+          width={80}
+          height={100}
           alt=""
-          src={toAbsoluteUrl("/media/logos/talentslistico.ico")}
+          src={"/media/images/truck-logo.png"}
           className="app-sidebar-logo-minimize"
         />
       </Link>

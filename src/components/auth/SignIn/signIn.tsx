@@ -1,5 +1,5 @@
 "use client";
-import Loader from "@/components/Loader/Loader ";
+
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { toast } from "react-toastify";
@@ -12,11 +12,10 @@ const LoginForm = () => {
 
   const router = useRouter();
 
- 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-
+  
     try {
       const res = await fetch("/api/auth", {
         method: "POST",
@@ -25,11 +24,20 @@ const LoginForm = () => {
         },
         body: JSON.stringify({ sup_contact, sup_password }),
       });
-
+  
       if (res.ok) {
+        const data = await res.json();
+  
+        // Store the username in session storage
+        sessionStorage.setItem("username", sup_contact);
+  
         console.log("Login successful");
         toast.success("Login successful! Redirecting to dashboard...");
-        router.push("/dashboard");
+  
+        // Delay navigation to allow toast to display
+        setTimeout(() => {
+          router.push("/dashboard");
+        }, 1000);
       } else {
         const data = await res.json();
         setErrorMessage(data.message);
@@ -43,9 +51,6 @@ const LoginForm = () => {
     }
   };
 
-
-
-  
   return (
     <div className="h-100 container d-flex align-items-center">
       <form

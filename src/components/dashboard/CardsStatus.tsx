@@ -59,17 +59,17 @@ const CardsStatus = ({ members }: Props) => {
           {/* Doughnut Chart */}
           <div
             className="doughnut-chart"
-            style={{ position: "relative", height: "100px", width: "100px" }}
+            style={{ position: "relative", height: "150px", width: "150px" }}
           >
             <Doughnut data={data} options={options} />
           </div>
 
           {/* Member Status Counts */}
-          <div className="ms-3 text-white">
-            <div className="fw-bold fs-6 opacity-75">
+          <div className="ms-5 text-white">
+            <div className="fw-bold fs-2 mb-5">
               Pending: {pendingCount}
             </div>
-            <div className="fw-bold fs-6 opacity-75">
+            <div className="fw-bold fs-2 ">
               Verified: {verifiedCount}
             </div>
           </div>

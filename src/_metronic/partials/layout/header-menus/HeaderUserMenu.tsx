@@ -1,15 +1,12 @@
 "use client";
-import { FC, useContext, useEffect, useState } from "react";
-import { toAbsoluteUrl } from "../../../helpers";
-import Link from "next/link";
-import Image from "next/image";
-// import { getSession, signOut } from "next-auth/react";
-import { useRouter } from "next/navigation";
+import { FC } from "react";
+
+import Logout from "@/components/auth/logout/Logout";
 // import { logout } from "@/api/auth/auth";
 
 const HeaderUserMenu: FC = () => {
-  const router = useRouter();
-  const [email, setEmail] = useState<string | null>(null);
+
+  const username = sessionStorage.getItem("username");
 
   // useEffect(() => {
   //   const fetchProfileInformation = async () => {
@@ -63,37 +60,35 @@ const HeaderUserMenu: FC = () => {
                 height={100}
               />
             )} */}
-            
+
           </div>
 
           <div className="d-flex flex-column">
             <div className="fw-bolder d-flex align-items-center fs-5">
               <span className=" fs-5 py-1">
                 {/* {profileHeader && profileHeader?.data?.information?.full_name} */}
-                Nitin
+                Welcome{""} {username}
               </span>
             </div>
-            <div className="fw-bold text-muted text-hover-primary fs-7">
+            {/* <div className="fw-bold text-muted text-hover-primary fs-7">
               <p>{email || "email"}</p>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
 
-      <div className="separator my-2"></div>
+      <div className="separator"></div>
 
-      <div className="menu-item bg-transparent px-5">
+      {/* <div className="menu-item bg-transparent px-5">
         <Link href="/settings?tab=overview" className="menu-link px-5">
           Settings
         </Link>
-      </div>
-      <div className="menu-item  bg-transparent px-5">
-        <button
-          // onClick={handleSignOut}
-          className="w-100 bg-transparent p-0 border-0"
-        >
-          <span className="menu-link fw-bold  w-100 px-5">Logout</span>
-        </button>
+      </div> */}
+      <div className="menu-item  bg-transparent">
+
+
+        <span className="menu-link "> <Logout /></span>
+
       </div>
     </div>
   );

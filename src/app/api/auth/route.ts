@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import prisma from '@/lib/db';
 import { sign } from 'jsonwebtoken';
+import bcrypt from 'bcrypt';
 
 const JWT_SECRET = process.env.JWT_SECRET;
 
@@ -16,7 +17,14 @@ export async function POST(request: Request) {
       where: { sup_contact },
     });
 
-    if (!supervisor || sup_password !== supervisor.sup_password) {
+    if (!supervisor) {
+      return NextResponse.json({ message: 'Invalid credentials' }, { status: 401 });
+    }
+
+    // Compare the provided password with the hashed password in the database
+    const isPasswordValid = await bcrypt.compare(sup_password, supervisor.sup_password);
+
+    if (!isPasswordValid) {
       return NextResponse.json({ message: 'Invalid credentials' }, { status: 401 });
     }
 

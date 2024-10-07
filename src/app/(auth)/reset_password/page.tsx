@@ -1,6 +1,6 @@
 import React, { Suspense } from "react";
 import SignInImg from "../Signinimg/Signinimg";
-import ResetPassword from "@/components/auth/resetPassword/resetPassword";
+// import ResetPassword from "@/components/auth/resetPassword/resetPassword";
 
 const Reset_Password = () => {
   return (
@@ -13,7 +13,7 @@ const Reset_Password = () => {
       </div>
       <div className="col-lg-4 col-md-5 col-12 p-0 col-12 bg-white ">
         <Suspense>
-          <ResetPassword />
+          {/* <ResetPassword /> */}
         </Suspense>
       </div>
     </div>

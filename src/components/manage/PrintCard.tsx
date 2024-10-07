@@ -1,3 +1,4 @@
+"use client"
 import Image from "next/image";
 import React from "react";
 import QRCode from "react-qr-code";
@@ -19,14 +20,14 @@ const PrintCard: React.FC<PrintCardProps> = ({ count, qrcodes }) => {
     const qrCodeData = pendingCount[index]; // Get corresponding QR code data
 
     return (
-      <div className="col-md-6 mb-4 p-5" key={index}>
-        <div className="card bg-primary text-white d-flex flex-row">
+      <div className="col-md-6 mb-4" key={index} style={{ pageBreakInside: 'avoid' }}>
+        <div className="card text-white" style={{ backgroundColor: '#007bff', margin: '10px', padding: '20px', borderRadius: '10px' }}>
           <div className="card-body d-flex align-items-center">
             <div className="me-3">
               <Image
                 src="/media/images/navle.png" // Adjust the image path as necessary
                 alt="Print Image"
-                className="img-fluid" // Ensures responsive image
+                className="img-fluid rounded" // Ensures responsive image
                 width={400}
                 height={100}
               />
@@ -48,7 +49,7 @@ const PrintCard: React.FC<PrintCardProps> = ({ count, qrcodes }) => {
                   display: "flex",
                   justifyContent: "center",
                   alignItems: "center",
-                  boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)", // Shadow effect
+                  boxShadow: "none", // Remove shadow for print
                 }}
               >
                 <QRCode
@@ -63,9 +64,35 @@ const PrintCard: React.FC<PrintCardProps> = ({ count, qrcodes }) => {
     );
   });
 
+  const handlePrint = () => {
+    window.print();
+  };
+
   return (
-    <div className="container">
+    <div className="container mt-8">
+      <button onClick={handlePrint} className="btn btn-success btn-sm mb-4" style={{ display: 'block', }}>
+        Print QR Codes
+      </button>
       <div className="row">{images}</div>
+
+      {/* Print-specific styles */}
+      <style jsx global>{`
+        @media print {
+          body {
+            margin: 0;
+            padding: 0;
+          }
+
+          .btn {
+            display: none; /* Hide button during print */
+          }
+
+          .card {
+            background-color: #007bff !important; /* Ensure card background is blue */
+            color: white !important; /* Ensure text is white */
+          }
+        }
+      `}</style>
     </div>
   );
 };

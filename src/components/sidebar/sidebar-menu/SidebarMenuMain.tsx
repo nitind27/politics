@@ -18,6 +18,7 @@ const SidebarMenuMain = () => {
         icon="calendar"
         title="Manage"
         fontIcon="calendar"
+        
       />
 
     </>

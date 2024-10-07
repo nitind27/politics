@@ -1,9 +1,10 @@
 "use client";
 import React, { useState } from "react";
 import { Card, Button, Modal, Form } from "react-bootstrap";
-import { useRouter } from "next/navigation"; // Import useRouter for navigation
-import PrintCard from "./PrintCard"; // Import PrintCard component
+import { useRouter } from "next/navigation";
+import PrintCard from "./PrintCard";
 import Qrgenerator from "./Qrgenerator ";
+import { KTIcon } from "@/_metronic/helpers";
 
 interface CardDetailProps {
   title: string;
@@ -11,7 +12,7 @@ interface CardDetailProps {
   imageUrl: string;
   linkUrl: string;
   totalData: number;
-  pending: number; // Number of pending items
+  pending: number;
   allocated: number;
 }
 
@@ -24,48 +25,48 @@ const CardDetail: React.FC<CardDetailProps> = ({
   pending,
   allocated,
 }) => {
-  const router = useRouter(); // Initialize router
-  const [showQrModal, setShowQrModal] = useState(false); // State for QR code modal visibility
-  const [showPrintModal, setShowPrintModal] = useState(false); // State for print modal visibility
-  const [imageCount, setImageCount] = useState<number>(0); // State to hold user input for print
-  const [error, setError] = useState<string>(""); // State to hold error messages
+  const router = useRouter();
+  const [showQrModal, setShowQrModal] = useState(false);
+  const [showPrintModal, setShowPrintModal] = useState(false);
+  const [imageCount, setImageCount] = useState<number>(0);
+  const [error, setError] = useState<string>("");
 
-  const handleShowQr = () => setShowQrModal(true); // Show QR code modal
-  const handleCloseQr = () => setShowQrModal(false); // Hide QR code modal
+  const handleShowQr = () => setShowQrModal(true);
+  const handleCloseQr = () => setShowQrModal(false);
 
-  const handleShowPrint = () => setShowPrintModal(true); // Show print modal
+  const handleShowPrint = () => setShowPrintModal(true);
   const handleClosePrint = () => {
     setShowPrintModal(false);
-    setImageCount(0); // Reset input on close
-    setError(""); // Clear any previous errors
+    setImageCount(0);
+    setError("");
   };
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = Number(event.target.value);
-    setImageCount(value); // Update image count based on user input
+    setImageCount(value);
 
     if (value < 1) {
-      setError("Please enter a number greater than or equal to 1."); // Set error message if invalid
+      setError("Please enter a number greater than or equal to 1.");
     } else {
-      setError(""); // Clear error message if valid
+      setError("");
     }
   };
 
   const handleSubmit = (event: React.FormEvent) => {
-    event.preventDefault(); // Prevent page refresh
+    event.preventDefault();
 
     if (imageCount < 1) {
       setError("Please enter a valid number greater than or equal to 1.");
-      return; // Exit if input is invalid
+      return;
     }
 
     if (imageCount > pending) {
-      setError(`You can only generate a maximum of ${pending} images.`); // Set error message if exceeds pending
-      return; // Exit if input exceeds pending
+      setError(`You can only generate a maximum of ${pending} images.`);
+      return;
     }
 
-    router.push(`/printcards/${imageCount}`); // Redirect to print page with count as a URL parameter
-    handleClosePrint(); // Close print modal after submission
+    router.push(`/printcards/${imageCount}`);
+    handleClosePrint();
   };
 
   return (
@@ -76,35 +77,49 @@ const CardDetail: React.FC<CardDetailProps> = ({
           backgroundImage: `url(${imageUrl})`,
           backgroundSize: "cover",
           backgroundPosition: "100% 50%",
-          height: "100px",
+          minHeight: "100px",
         }}
       >
-        <div className="d-flex justify-content-between align-items-center mb-3">
-          <div>
-            <h5 className="fw-bold text-start">
-              Total QR{" "}
-              <span className="float-end text-primary ms-2">{totalData}</span>
-            </h5>
-            <h6 className="text-start">
-              Allocated{" "}
-              <span className="float-end text-primary">{allocated}</span>
-            </h6>
-            <h6 className="text-start">
-              Pending{" "}
-              <span className="float-end text-primary">{pending}</span>
-            </h6>
+        <div className="d-flex justify-content-between align-items-start mb-3 flex-wrap">
+          <div className="mb-3 mb-md-0 flex-grow-1">
+            <div className="d-flex ">
+              <h5 className="fw-bold text-start text-primary ">
+                Total QR
+              <span className="text-primary ms-3">{totalData}</span>
+              </h5>
+            </div>
+            <div className="d-flex ">
+              <h6 className="text-start ">
+                Allocated
+              <span className="text-success ms-3">{allocated}</span>
+              </h6>
+            </div>
+            <div className="d-flex">
+              <h6 className="text-start ">
+                Pending
+              <span className="text-danger ms-3">{pending}</span>
+              </h6>
+            </div>
           </div>
 
-          <div>
+          <div className="d-flex flex-column flex-md-row align-items-center justify-content-between">
             <Button
               variant="primary"
-              className="me-2"
+              className="me-2 btn-sm mb-2 mb-md-0"
               onClick={handleShowQr}
+              style={{ minWidth: '120px' }}
             >
-              Generate QR Code
+              <KTIcon iconName={"scan-barcode"} className="fs-3" iconType="solid" />
+              Generate QR
             </Button>
 
-            <Button variant="success" onClick={handleShowPrint}>
+            <Button
+              variant="success"
+              onClick={handleShowPrint}
+              className="btn-sm"
+              style={{ minWidth: '120px' }}
+            >
+              <KTIcon iconName={"printer"} className="fs-3" iconType="solid" />
               Print
             </Button>
           </div>
@@ -127,7 +142,6 @@ const CardDetail: React.FC<CardDetailProps> = ({
           <Modal.Title>Generate Print Images</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          {/* Input for image count */}
           <Form onSubmit={handleSubmit}>
             <Form.Group controlId="imageCount">
               <Form.Label>Enter Number of Images:</Form.Label>
@@ -137,7 +151,7 @@ const CardDetail: React.FC<CardDetailProps> = ({
                 onChange={handleInputChange}
                 placeholder="Enter a number"
                 min={1}
-                isInvalid={!!error} // Show invalid state if there's an error
+                isInvalid={!!error}
               />
               {error && (
                 <div style={{ color: "red", marginTop: "0.25rem" }}>

@@ -1,7 +1,7 @@
 // src/components/LoginForm.tsx
 "use client"
 import React, { useState } from 'react';
-import bcrypt from 'bcryptjs'; // Example library for hashing
+// import bcrypt from 'bcryptjs'; // Example library for hashing
 
 const LoginForm = () => {
   const [sup_contact, setSupContact] = useState('');
