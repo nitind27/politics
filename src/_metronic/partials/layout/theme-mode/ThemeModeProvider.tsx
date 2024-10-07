@@ -1,9 +1,10 @@
 "use client";
 
 import { createContext, useContext, useEffect, useState } from "react";
-import { ThemeModeComponent } from "../../../assets/ts/layout";
+
 import { toAbsoluteUrl } from "../../../helpers";
 import { isBrowser } from "@/_metronic/assets/ts/components";
+import { ThemeModeComponent } from "@/_metronic/assets/ts/layout";
 
 export type ThemeModeType = "dark" | "light" | "system";
 export const themeModelSKey = "kt_theme_mode_value";
