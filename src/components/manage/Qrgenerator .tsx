@@ -1,6 +1,6 @@
 // components/Qrgenerator.tsx
 import React, { useState } from "react";
-import QRCode from "react-qr-code";
+
 import { toast } from "react-toastify"; // Import toast functions
 
 const Qrgenerator: React.FC = () => {

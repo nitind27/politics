@@ -21,22 +21,22 @@ const PrintPage = async ({ params }: { params: { count: string } }) => {
     );
   }
 
-  const pendingCount = qrcodes.filter(
-    (Qrcodes) => Qrcodes.status === "Pending"
-  ).length;
+  // const pendingCount = qrcodes.filter(
+  //   (Qrcodes) => Qrcodes.status === "Pending"
+  // ).length;
 
   // Check if imageCount is greater than pendingCount
-  if (imageCount > pendingCount) {
-    return (
-      <div style={{ textAlign: 'center', marginTop: '20px' }}>
-        <h1 style={{ color: 'red' }}>Error</h1>
-        <p style={{ fontSize: '18px' }}>
-          The requested number of images ({imageCount}) exceeds the available pending images ({pendingCount}).
-        </p>
-        <p>Please adjust the number of images you want to print.</p>
-      </div>
-    );
-  }
+  // if (imageCount > pendingCount) {
+  //   return (
+  //     <div style={{ textAlign: 'center', marginTop: '20px' }}>
+  //       <h1 style={{ color: 'red' }}>Error</h1>
+  //       <p style={{ fontSize: '18px' }}>
+  //         The requested number of images ({imageCount}) exceeds the available pending images ({pendingCount}).
+  //       </p>
+  //       <p>Please adjust the number of images you want to print.</p>
+  //     </div>
+  //   );
+  // }
 
   return (
     <div>

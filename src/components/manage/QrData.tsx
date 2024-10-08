@@ -6,10 +6,51 @@ import {
   getPaginationRowModel,
   flexRender,
 } from "@tanstack/react-table";
+import { Button, Form, Modal } from "react-bootstrap";
+import { KTIcon } from "@/_metronic/helpers";
+import { useRouter } from "next/navigation";
 
 export default function BasicTable({ data, columns }: any) {
+  const router = useRouter();
   const [searchQuery, setSearchQuery] = useState("");
   const [filterStatus, setFilterStatus] = useState("");
+  const [showQrModal, setShowQrModal] = useState(false);
+  const [showPrintModal, setShowPrintModal] = useState(false);
+  const [imageCount, setImageCount] = useState<number>(0);
+  const [error, setError] = useState<string>("");
+
+  const handleShowQr = () => setShowQrModal(true);
+  const handleCloseQr = () => setShowQrModal(false);
+
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const value = Number(event.target.value);
+    setImageCount(value);
+    if (value < 1) {
+      setError("Please enter a number greater than or equal to 1.");
+    } else {
+      setError("");
+    }
+  };
+
+  const handleShowPrint = () => setShowPrintModal(true);
+  const handleClosePrint = () => {
+    setShowPrintModal(false);
+    setImageCount(0);
+    setError("");
+  };
+
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+
+    if (imageCount < 1) {
+      setError("Please enter a valid number greater than or equal to 1.");
+      return;
+    }
+
+
+    router.push(`/printcards/${imageCount}`);
+    handleClosePrint();
+  };
 
   const filteredData = React.useMemo(() => {
     return data.filter((row: any) => {
@@ -60,8 +101,8 @@ export default function BasicTable({ data, columns }: any) {
 
   return (
     <div className="container mt-5 card card-body p-5">
-      <h2 className="text-center">User Status</h2>
-      <div className="row mb-3">
+      {/* <h2 className="text-center">User Status</h2> */}
+      <div className="row mb-3 align-items-center">
         <div className="col-auto">
           <input
             type="text"
@@ -82,6 +123,17 @@ export default function BasicTable({ data, columns }: any) {
             <option value="Approved">Approved</option>
             {/* Add more options as needed */}
           </select>
+        </div>
+        <div className="col-auto ms-auto"> {/* Add 'ms-auto' to push the button to the left */}
+          <Button
+            variant="primary"
+            onClick={handleShowPrint}
+            className="btn"
+            style={{ minWidth: '120px' }}
+          >
+            <KTIcon iconName={"printer"} className="fs-3" iconType="solid" />
+            Generate QR
+          </Button>
         </div>
       </div>
       <div className="table-responsive">
@@ -119,6 +171,36 @@ export default function BasicTable({ data, columns }: any) {
         </span>
         {renderPagination()}
       </div>
+
+      {/* Modal for Print */}
+      <Modal show={showPrintModal} onHide={handleClosePrint}>
+        <Modal.Header closeButton>
+          <Modal.Title>Generate Print Images</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form onSubmit={handleSubmit}>
+            <Form.Group controlId="imageCount">
+              <Form.Label>Enter Number of Images:</Form.Label>
+              <Form.Control
+                type="number"
+                value={imageCount}
+                onChange={handleInputChange}
+                placeholder="Enter a number"
+                min={1}
+                isInvalid={!!error}
+              />
+              {error && (
+                <div style={{ color: "red", marginTop: "0.25rem" }}>
+                  {error}
+                </div>
+              )}
+            </Form.Group>
+            <Button variant="primary" type="submit" className="mt-5">
+              Submit
+            </Button>
+          </Form>
+        </Modal.Body>
+      </Modal>
     </div>
   );
 }

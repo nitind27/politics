@@ -53,7 +53,7 @@ const PrintCard: React.FC<PrintCardProps> = ({ count, qrcodes }) => {
                 }}
               >
                 <QRCode
-                  value={`https://vishalnawle.in/politics/member.php?pl=${qrCodeData.id}`} // Use id from pendingCount
+                  value={`http://localhost:3000/addmember`} // Use id from pendingCount
                   size={130}
                 />
               </div>

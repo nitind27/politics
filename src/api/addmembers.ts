@@ -20,18 +20,20 @@ export async function POST(request: Request) {
             // If status is Verified, we can proceed to insert a new member
         }
 
-        // Create a new member
+        // Create a new member with a random QR ID
+        const qr_id = Math.floor(Math.random() * 1000000); // Generate QR ID here
+
         const newMember = await prisma.member.create({
             data: {
                 name,
                 mobile_no: contact,
                 address,
-                qr_id: Math.floor(Math.random() * 1000000), // Example QR ID generation
+                qr_id,
                 status: 'Pending', // Default status
             },
         });
 
-        return NextResponse.json(newMember, { status: 201 });
+        return NextResponse.json({ ...newMember, qr_id }, { status: 201 }); // Include qr_id in the response
     } catch (error) {
         console.error(error);
         return NextResponse.json({ error: 'Failed to create member' }, { status: 500 });
